@@ -17,15 +17,15 @@ using SpringHackApi.Models;
 using AeroORMFramework;
 
 using Newtonsoft.Json;
+using System.Web.Http;
 
 namespace SpringHackApi.Controllers
 {
-    public class OfficeController : IHttpController
+    public class OfficeController : ApiController
     {
         private string ConnectionString { get; } = "Server=tcp:springhack.database.windows.net,1433;Initial Catalog=springHackDB;Persist Security Info=False;User ID=AeroOne;Password=iYH-FXn-Vw5-dz8;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public async Task<HttpResponseMessage> ExecuteAsync(HttpControllerContext context,
-            CancellationToken cancellationToken)
+        public async Task<HttpResponseMessage> GetAllOffices()
         {
             return await Task.Run(() =>
             {
@@ -35,8 +35,31 @@ namespace SpringHackApi.Controllers
 
                 return new HttpResponseMessage()
                 {
-                    Content = new StringContent(JsonConvert.SerializeObject(offices), System.Text.Encoding.UTF8, "application/json")
+                    Content = new StringContent(JsonConvert.SerializeObject(offices), System.Text.Encoding.UTF8,
+                        "application/json")
                 };
+            });
+        }
+
+        public async Task<HttpResponseMessage> GetOffice(int officeID)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    Connector connector = new Connector(ConnectionString);
+                    List<Office> offices = connector.GetRecords<Office>("ID", officeID);
+
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent(JsonConvert.SerializeObject(offices),
+                            System.Text.Encoding.UTF8, "application/json")
+                    };
+                }
+                catch
+                {
+                    return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                }
             });
         }
     }

@@ -38,9 +38,14 @@ namespace SpringHackApi.Controllers
                         }
                     }
 
-                    Assesment assesment = JsonConvert.DeserializeObject<Assesment>(body);
-
                     Connector connector = new Connector(ConnectionString);
+
+                    Assesment assesment = JsonConvert.DeserializeObject<Assesment>(body);
+                    Coupon coupon = connector.GetRecord<Coupon>("ID", assesment.ID);
+                    CouponCode couponCode = connector.GetRecord<CouponCode>("CouponID", coupon.ID);
+                    couponCode.CouponCodeStatus = CouponCodeStatus.Used;
+                    connector.UpdateRecord(couponCode);
+
                     connector.Insert(assesment);
 
                     return new HttpResponseMessage(HttpStatusCode.OK);
