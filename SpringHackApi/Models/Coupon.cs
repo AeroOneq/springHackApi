@@ -7,20 +7,23 @@ using AeroORMFramework;
 
 namespace SpringHackApi.Models
 {
-    public class Assesment
+    public class Coupon
     {
         [AutoincrementID, PrimaryKey, CanBeNull(false)]
         public int ID { get; set; }
         [CanBeNull(false)]
         public int UserID { get; set; }
         [CanBeNull(false)]
-        public int CouponID { get; set; }
-        [CanBeNull(false)]
         public int OfficeID { get; set; }
-
         [CanBeNull(false)]
-        public int Mark { get; set; }
+        public DateTime CreationDate { get; set; }
         [CanBeNull(false)]
-        public string Comment { get; set; }
+        public DateTime VisitTime { get; set; }
+        [CanBeNull(false)]
+        public string OfficeAddress { get; set; }
+        [CanBeNull(false)]
+        public string ServiceType { get; set; }
+        [CanBeNull(false), SetAzureSQLDataType("int")]
+        public CouponStatus CouponStatus { get; set; }
     }
 }
