@@ -43,6 +43,30 @@ namespace SpringHackApi.Controllers
             });
         }
 
+
+        public async Task<HttpResponseMessage> GetCoupon(int ID)
+        {
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    Connector connector = new Connector(ConnectionString);
+                    Coupon coupon = connector.GetRecord<Coupon>("ID", ID);
+
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent(JsonConvert.SerializeObject(coupon),
+                            System.Text.Encoding.UTF8, "application/json")
+                    };
+                }
+                catch (Exception)
+                {
+                    return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                }
+            });
+        }
+
+
         public async Task<HttpResponseMessage> GetAllCoupons()
         {
             return await Task.Run(() =>
@@ -60,22 +84,7 @@ namespace SpringHackApi.Controllers
                 }
                 catch
                 {
-                    Coupon coupon = new Coupon()
-                    {
-                        CouponStatus = CouponStatus.Active,
-                        CreationDate = DateTime.Now,
-                        OfficeAddress = "asdasdasd",
-                        OfficeID = 0,
-                        ServiceType = "asd",
-                        UserID = 0,
-                        VisitTime = DateTime.Now,
-                    };
-
-                    return new HttpResponseMessage(HttpStatusCode.InternalServerError)
-                    {
-                        Content = new StringContent(JsonConvert.SerializeObject(coupon),
-                            System.Text.Encoding.UTF8, "application/json")
-                    };
+                    return new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 }
             });
         }
@@ -102,12 +111,16 @@ namespace SpringHackApi.Controllers
                     Coupon coupon = JsonConvert.DeserializeObject<Coupon>(body);
                     CouponCode couponCode = GetCouponCode(coupon);
 
-                    Connector.Insert(coupon);
-                    Connector.Insert(couponCode);
+                    int couponID = Connector.InsertAndGetID(coupon);
+                    Connector.InsertAndGetID(couponCode);
 
-                    return new HttpResponseMessage(HttpStatusCode.OK);
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent(couponID.ToString(), System.Text.Encoding.UTF8,
+                            "text/plain")
+                    };
                 }
-                catch
+                catch (Exception)
                 {
                     return new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 }

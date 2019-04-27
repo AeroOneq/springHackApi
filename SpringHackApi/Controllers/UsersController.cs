@@ -32,7 +32,7 @@ namespace SpringHackApi.Controllers
                             System.Text.Encoding.UTF8, "application/json")
                     };
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError);
                 }
