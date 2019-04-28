@@ -41,7 +41,7 @@ namespace SpringHackApi.Controllers
                     Connector connector = new Connector(ConnectionString);
 
                     Assesment assesment = JsonConvert.DeserializeObject<Assesment>(body);
-                    Coupon coupon = connector.GetRecord<Coupon>("ID", assesment.ID);
+                    Coupon coupon = connector.GetRecord<Coupon>("ID", assesment.CouponID);
                     CouponCode couponCode = connector.GetRecord<CouponCode>("CouponID", coupon.ID);
                     couponCode.CouponCodeStatus = CouponCodeStatus.Used;
                     connector.UpdateRecord(couponCode);
