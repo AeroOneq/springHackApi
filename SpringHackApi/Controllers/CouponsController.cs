@@ -114,10 +114,12 @@ namespace SpringHackApi.Controllers
                     int couponID = Connector.InsertAndGetID(coupon);
                     Connector.InsertAndGetID(couponCode);
 
+                    Coupon databaseCoupon = Connector.GetRecord<Coupon>("ID", couponID);
+
                     return new HttpResponseMessage(HttpStatusCode.OK)
                     {
-                        Content = new StringContent(couponID.ToString(), System.Text.Encoding.UTF8,
-                            "text/plain")
+                        Content = new StringContent(JsonConvert.SerializeObject(databaseCoupon), System.Text.Encoding.UTF8,
+                            "application/json")
                     };
                 }
                 catch (Exception)
