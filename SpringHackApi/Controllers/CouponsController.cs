@@ -43,7 +43,6 @@ namespace SpringHackApi.Controllers
             });
         }
 
-
         public async Task<HttpResponseMessage> GetCoupon(int ID)
         {
             return await Task.Run(() =>
@@ -112,6 +111,7 @@ namespace SpringHackApi.Controllers
                     CouponCode couponCode = GetCouponCode(coupon);
 
                     int couponID = Connector.InsertAndGetID(coupon);
+                    couponCode.CouponID = couponID;
                     Connector.InsertAndGetID(couponCode);
 
                     Coupon databaseCoupon = Connector.GetRecord<Coupon>("ID", couponID);

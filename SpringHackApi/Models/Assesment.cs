@@ -17,7 +17,6 @@ namespace SpringHackApi.Models
         public int CouponID { get; set; }
         [CanBeNull(false)]
         public int OfficeID { get; set; }
-
         [CanBeNull(false)]
         public int Mark { get; set; }
         [CanBeNull(false)]
