@@ -19,7 +19,7 @@ namespace SpringHackApi.Controllers
 {
     public class AssesmentsController : ApiController
     {
-        private string ConnectionString { get; } = "Server=tcp:springhack.database.windows.net,1433;Initial Catalog=springHackDB;Persist Security Info=False;User ID=AeroOne;Password=iYH-FXn-Vw5-dz8;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private string ConnectionString { get; } 
 
         [HttpPost]
         public async Task<HttpResponseMessage> InsertAssesment()

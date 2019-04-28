@@ -20,7 +20,7 @@ namespace SpringHackApi.Controllers
     {
         private Connector Connector { get; set; }
         private static Random Random { get; } = new Random();
-        private string ConnectionString { get; } = "Server=tcp:springhack.database.windows.net,1433;Initial Catalog=springHackDB;Persist Security Info=False;User ID=AeroOne;Password=iYH-FXn-Vw5-dz8;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private string ConnectionString { get; }
         public async Task<HttpResponseMessage> GetUserCoupons(int userID)
         {
             return await Task.Run(() =>
