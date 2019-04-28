@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Controllers;
-using System.Web.Mvc;
 using System.Xml;
 using System.Runtime.Serialization.Json;
 
@@ -25,6 +24,7 @@ namespace SpringHackApi.Controllers
     {
         private string ConnectionString { get; } = "Server=tcp:springhack.database.windows.net,1433;Initial Catalog=springHackDB;Persist Security Info=False;User ID=AeroOne;Password=iYH-FXn-Vw5-dz8;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
+        [HttpGet]
         public async Task<HttpResponseMessage> GetAllOffices()
         {
             return await Task.Run(() =>
@@ -41,6 +41,7 @@ namespace SpringHackApi.Controllers
             });
         }
 
+        [HttpGet]
         public async Task<HttpResponseMessage> GetOffice(int officeID)
         {
             return await Task.Run(() =>

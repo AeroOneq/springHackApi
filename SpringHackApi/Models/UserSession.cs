@@ -14,7 +14,7 @@ namespace SpringHackApi.Models
         [CanBeNull(false)]
         public int ChatID { get; set; }
         [CanBeNull(false)]
-        public int Raiting { get; set; }
+        public int Rating { get; set; }
         [CanBeNull(false)]
         public string Reason { get; set; }
         [CanBeNull(false)]

@@ -19,26 +19,17 @@ namespace SpringHackApi.Controllers
         private string ConnectionString { get; } = "Server=tcp:springhack.database.windows.net,1433;Initial Catalog=springHackDB;Persist Security Info=False;User ID=AeroOne;Password=iYH-FXn-Vw5-dz8;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         [HttpGet]
-        public async Task<HttpResponseMessage> ExecuteQueryAndGetResult()
+        public async Task<HttpResponseMessage> ExecuteQueryAndGetResult(string query)
         {
             return await Task.Run(async () =>
             {
                 try
                 {
-                    string body;
-                    using (Stream stream = await Request.Content.ReadAsStreamAsync())
-                    {
-                        stream.Seek(0, SeekOrigin.Begin);
-                        using (StreamReader sr = new StreamReader(stream))
-                        {
-                            body = await sr.ReadToEndAsync();
-                        }
-                    }
-
                     SqlConnection sqlConnection = new SqlConnection(ConnectionString);
+                    sqlConnection.Open();
                     SqlCommand sqlCommand = new SqlCommand()
                     {
-                        CommandText = body,
+                        CommandText = query,
                         Connection = sqlConnection
                     };
 
@@ -51,7 +42,7 @@ namespace SpringHackApi.Controllers
                         {
                             ID = (int)sqlDataReader.GetValue(0),
                             ChatID = (int)sqlDataReader.GetValue(1),
-                            Raiting = (int)sqlDataReader.GetValue(2),
+                            Rating = (int)sqlDataReader.GetValue(2),
                             Reason = (string)sqlDataReader.GetValue(3),
                             IsTicket = (int)sqlDataReader.GetValue(4),
                             Result = (string)sqlDataReader.GetValue(5)
@@ -95,6 +86,7 @@ namespace SpringHackApi.Controllers
                     }
 
                     SqlConnection sqlConnection = new SqlConnection(ConnectionString);
+                    sqlConnection.Open();
                     SqlCommand sqlCommand = new SqlCommand()
                     {
                         CommandText = body,
